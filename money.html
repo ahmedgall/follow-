@@ -50,14 +50,44 @@
       padding: 12px;
       border-radius: 8px;
       font-size: 16px;
-      text-align: center;
       font-weight: bold;
       color: #00ffb3;
       margin-bottom: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: #00ffb3;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .copy-btn:hover {
+      color: #00e6a4;
+      text-decoration: underline;
+    }
+
+    .error-message {
+      color: #ff4d4d;
+      background-color: #2e1f1f;
+      border: 1px solid #ff4d4d;
+      padding: 10px;
+      border-radius: 8px;
+      margin-top: 20px;
+      margin-bottom: 15px;
+      text-align: center;
+      font-weight: bold;
+      display: none;
     }
 
     button {
-      margin-top: 30px;
+      margin-top: 10px;
       width: 100%;
       padding: 12px;
       border: none;
@@ -73,6 +103,20 @@
     button:hover {
       background-color: #00e6a4;
     }
+
+    .toast {
+      position: fixed;
+      bottom: 30px;
+      left: 50%;
+      transform: translateX(-50%);
+      background-color: #00ffb3;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 10px;
+      font-weight: bold;
+      display: none;
+      z-index: 999;
+    }
   </style>
 </head>
 <body>
@@ -80,32 +124,51 @@
     <h2>إضافة رصيد</h2>
 
     <label>رقم المحفظة الذي سيتم التحويل إليه:</label>
-    <div class="wallet-number">01064170259</div>
+    <div class="wallet-number">
+      <span id="walletNumber">01064170259</span>
+      <button class="copy-btn" onclick="copyNumber()">نسخ</button>
+    </div>
 
     <label for="amount">المبلغ المحول (بالجنيه)</label>
-    <input type="number" id="amount" placeholder="مثال: 50" min="1" required>
+    <input type="number" id="amount" placeholder="مثال: 50" min="5" required>
 
     <label for="fromNumber">رقم الهاتف الذي تم التحويل منه</label>
     <input type="tel" id="fromNumber" placeholder="مثال: 01098765432" required>
 
+    <div class="error-message" id="errorMsg"></div>
+
     <button onclick="confirmTransfer()">تأكيد التحويل</button>
   </div>
 
+  <div class="toast" id="toast">📋 تم نسخ الرقم</div>
+
   <script>
     function confirmTransfer() {
-      const amount = document.getElementById("amount").value;
+      const amount = parseFloat(document.getElementById("amount").value);
       const fromNumber = document.getElementById("fromNumber").value;
+      const errorMsg = document.getElementById("errorMsg");
 
-      if (!amount || !fromNumber) {
-        alert("يرجى إدخال جميع البيانات.");
+      if (!amount || amount < 5 || !fromNumber) {
+        errorMsg.innerText = "❌ يرجى إدخال جميع البيانات، والحد الأدنى للإيداع هو 5 جنيه.";
+        errorMsg.style.display = "block";
         return;
       }
 
-      // حفظ البيانات مؤقتاً أو إرسالها لسيرفر - هنا مجرد عرض تأكيدي
-      alert(`✅ تم استلام طلب تحويل بمبلغ ${amount} جنيه من الرقم ${fromNumber}. سيتم مراجعته قريباً.`);
+      errorMsg.style.display = "none"; // إخفاء الرسالة إذا تم الإدخال بشكل صحيح
 
-      // إعادة التوجيه مثلاً لصفحة رئيسية:
-      // window.location.href = "index.html";
+      // عرض رسالة تأكيد عادية
+      alert(`✅ تم استلام طلب تحويل بمبلغ ${amount} جنيه من الرقم ${fromNumber}. سيتم مراجعته قريباً.`);
+    }
+
+    function copyNumber() {
+      const walletNumber = document.getElementById("walletNumber").innerText;
+      navigator.clipboard.writeText(walletNumber).then(() => {
+        const toast = document.getElementById("toast");
+        toast.style.display = "block";
+        setTimeout(() => {
+          toast.style.display = "none";
+        }, 2000);
+      });
     }
   </script>
 </body>
