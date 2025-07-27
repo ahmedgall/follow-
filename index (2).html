@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>تسجيل الدخول - زودلي</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #0f0f0f, #1c1c1c);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    .login-container {
+      background: #1a1a1a;
+      padding: 30px;
+      border-radius: 20px;
+      width: 90%;
+      max-width: 400px;
+      box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
+      text-align: center;
+    }
+
+    .login-container h1 {
+      margin-bottom: 20px;
+      color: #00ffb3;
+      font-size: 28px;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: none;
+      border-radius: 12px;
+      background: #333;
+      color: #fff;
+      font-size: 16px;
+    }
+
+    input::placeholder {
+      color: #aaa;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: none;
+      border-radius: 12px;
+      background: #00ffb3;
+      color: #000;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #00dba0;
+    }
+
+    .footer {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="login-container">
+    <h1>🚀 زودلي</h1>
+    <form onsubmit="event.preventDefault(); saveData();">
+      <input type="text" id="username" placeholder="الاسم" required>
+      <input type="tel" id="phone" placeholder="رقم الهاتف" required>
+       
+       <button onclick="window.location.href='folow.html'" type="button">طلب الخدمة</button>
+
+       
+       
+    </form>
+    <div class="footer">© 2025 زودلي - جميع الحقوق محفوظة</div>
+  </div>
+
+  <script>
+    function saveData() {
+      const name = document.getElementById('username').value;
+      const phone = document.getElementById('phone').value;
+
+      // حفظ مؤقت - يمكنك استبداله بقاعدة بيانات لاحقاً
+      localStorage.setItem("zodly_user", JSON.stringify({ name, phone }));
+
+      // الانتقال للصفحة الرئيسية
+      window.location.href = "index.html";
+    }
+  </script>
+
+</body>
+</html>
