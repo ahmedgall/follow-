@@ -19,51 +19,66 @@
       align-items: center;
       justify-content: center;
       height: 100vh;
+      padding: 20px;
     }
 
     .login-container {
       background: #1a1a1a;
-      padding: 30px;
+      padding: 35px 25px;
       border-radius: 20px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 20px rgba(0, 255, 170, 0.2);
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 0 25px rgba(0, 255, 170, 0.1);
       text-align: center;
+      transition: 0.3s;
     }
 
     .login-container h1 {
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       color: #00ffb3;
-      font-size: 28px;
+      font-size: 30px;
     }
 
     input {
       width: 100%;
-      padding: 12px 15px;
-      margin: 10px 0;
+      padding: 14px 16px;
+      margin-bottom: 15px;
       border: none;
       border-radius: 12px;
-      background: #333;
+      background: #2b2b2b;
       color: #fff;
       font-size: 16px;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      outline: none;
+      background-color: #333;
+      box-shadow: 0 0 5px #00ffb3;
     }
 
     input::placeholder {
       color: #aaa;
     }
 
+    .error-message {
+      color: #ff5e5e;
+      margin-bottom: 10px;
+      font-size: 14px;
+      display: none;
+    }
+
     button {
       width: 100%;
-      padding: 12px;
+      padding: 14px;
       border: none;
       border-radius: 12px;
       background: #00ffb3;
       color: #000;
-      font-size: 16px;
+      font-size: 17px;
       font-weight: bold;
       cursor: pointer;
       transition: background 0.3s ease;
-      margin-top: 10px;
     }
 
     button:hover {
@@ -71,9 +86,9 @@
     }
 
     .footer {
-      margin-top: 20px;
+      margin-top: 25px;
       font-size: 14px;
-      color: #666;
+      color: #777;
     }
   </style>
 </head>
@@ -81,28 +96,36 @@
 
   <div class="login-container">
     <h1>🚀 زودلي</h1>
+
+    <div class="error-message" id="errorMessage">يرجى ملء جميع البيانات بشكل صحيح.</div>
+
     <form onsubmit="event.preventDefault(); saveData();">
       <input type="text" id="username" placeholder="الاسم" required>
       <input type="tel" id="phone" placeholder="رقم الهاتف" required>
-       
-       <button onclick="window.location.href='folow.html'" type="button">طلب الخدمة</button>
-
-       
-       
+      <button type="submit">تسجيل الدخول وطلب الخدمة</button>
     </form>
+
     <div class="footer">© 2025 زودلي - جميع الحقوق محفوظة</div>
   </div>
 
   <script>
     function saveData() {
-      const name = document.getElementById('username').value;
-      const phone = document.getElementById('phone').value;
+      const name = document.getElementById('username').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const errorDiv = document.getElementById('errorMessage');
 
-      // حفظ مؤقت - يمكنك استبداله بقاعدة بيانات لاحقاً
+      if (!name || !phone || phone.length < 10) {
+        errorDiv.style.display = 'block';
+        return;
+      }
+
+      errorDiv.style.display = 'none';
+
+      // حفظ البيانات في localStorage
       localStorage.setItem("zodly_user", JSON.stringify({ name, phone }));
 
-      // الانتقال للصفحة الرئيسية
-      window.location.href = "index.html";
+      // الانتقال إلى الصفحة التالية
+      window.location.href = "folow.html";
     }
   </script>
 
